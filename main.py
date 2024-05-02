@@ -31,3 +31,12 @@ async def register_user(user: User):
     user_id = str(uuid.uuid4())
     users[user_id] = user.dict()
     return {"message": "User registered successfully", "user_id": user_id}
+
+
+# API para obtener datos de usuario
+@app.get("/user/{user_id}")
+async def get_user(user_id: str):
+    user = users.get(user_id)
+    if user:
+        return user
+    raise HTTPException(status_code=404, detail="User not found")
