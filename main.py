@@ -23,3 +23,11 @@ class Task(BaseModel):
 # Base de datos simulada
 users = {}
 tasks = {}
+
+
+# API para registrar usuarios
+@app.post("/register/")
+async def register_user(user: User):
+    user_id = str(uuid.uuid4())
+    users[user_id] = user.dict()
+    return {"message": "User registered successfully", "user_id": user_id}
