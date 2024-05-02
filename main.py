@@ -52,3 +52,12 @@ async def create_task(task: Task, user_id: str):
         tasks[task_id] = task_dict
         return {"message": "Task created successfully", "task_id": task_id}
     raise HTTPException(status_code=404, detail="User not found")
+
+
+# API para listar tareas por usuario
+@app.get("/tasks/{user_id}")
+async def get_tasks_by_user(user_id: str):
+    user_tasks = [task for task in tasks.values() if task["user_id"] == user_id]
+    if user_tasks:
+        return user_tasks
+    raise HTTPException(status_code=404, detail="No tasks found for this user")
