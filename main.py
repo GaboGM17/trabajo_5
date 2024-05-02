@@ -40,3 +40,15 @@ async def get_user(user_id: str):
     if user:
         return user
     raise HTTPException(status_code=404, detail="User not found")
+
+
+# API para crear tareas
+@app.post("/tasks/create/")
+async def create_task(task: Task, user_id: str):
+    if user_id in users:
+        task_id = str(uuid.uuid4())
+        task_dict = task.dict()
+        task_dict["user_id"] = user_id
+        tasks[task_id] = task_dict
+        return {"message": "Task created successfully", "task_id": task_id}
+    raise HTTPException(status_code=404, detail="User not found")
